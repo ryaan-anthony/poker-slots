@@ -8,6 +8,6 @@ Pay the slot machine, for example:
 
 ### Roadmap
 
-* Control flow feels weird with the mixed use of `yield` and `raise`
+* Control flow feels weird in `slot_machine#spin` and `game_engine#play`
 * Full test suite
 * More games to demonstrate abstractions

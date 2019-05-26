@@ -1,6 +1,6 @@
 module PokerSlots
   class Renderer
-    SEPARATOR = '- - - - - - - - - - -'.freeze
+    SEPARATOR = '- - - - - - - - - - - -'.freeze
 
     def clear
       system 'clear'
@@ -10,33 +10,24 @@ module PokerSlots
       puts mixed
     end
 
-    def display_intro(balance)
+    def display_intro(credits)
       clear
       append SEPARATOR
-      append "  Credits: $#{'%.2f' % balance}"
+      append "   Credits: $#{'%.2f' % credits}"
       append SEPARATOR
-      append "  Place your bet:"
+      append '   Place your bet:'
     end
 
-    def display_layout(wager, lines, payout, balance, mapping = [])
+    def display_layout(wager, view, payout, credits)
       clear
       append SEPARATOR
-      append "  Credits: $#{'%.2f' % balance}"
+      append "   Credits: $#{'%.2f' % credits}"
       append SEPARATOR
-      lines.map.with_index do |line, row|
-        output = line.map.with_index do |card, column|
-          if mapping.include?([row, column])
-            "[#{card.join}]"
-          else
-            " #{card.join} "
-          end
-        end
-       append "  #{output.join('  ')}"
-      end
+      view.lines.each { |line| append "   #{line}" }
       append SEPARATOR
-      append "  Bet: $#{'%.2f' % wager}"
+      append "   Bet: $#{'%.2f' % wager}"
       append SEPARATOR
-      append "  Win: $#{'%.2f' % payout}"
+      append "   Win: $#{'%.2f' % payout}"
       append SEPARATOR
       append '[Press ENTER to rebet]'
     end

@@ -1,10 +1,15 @@
 module PokerSlots
   class PayoutCalculator
-    attr_reader :payout
+    attr_reader :payout, :winners
 
     def initialize(wager)
       @wager = wager
       @payout = 0
+      @winners = []
+    end
+
+    def add_winners(winner)
+      @winners << winner
     end
 
     def calculate(line)

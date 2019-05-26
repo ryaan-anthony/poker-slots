@@ -3,40 +3,54 @@ module PokerSlots
   class InsufficientFunds < StandardError; end
   class SlotMachine
     include CardLibrary
-    attr_reader :balance
+    attr_reader :credits
 
-    def initialize(balance)
-      @balance = balance
+    def initialize(credits)
+      @credits = credits
     end
 
     def spin(wager, &block)
       raise InvalidWager if wager <= 0
-      raise InsufficientFunds if wager > @balance
+      raise InsufficientFunds if wager > @credits
       @lines = nil
-      @balance -= wager
-      (0..2).each do |column|
-        block.call(lines.map { |line| line.take(column) }, 0.0)
-      end
-      payout = calculate_payout(wager, block).payout
-      @balance += payout
-      [lines, payout]
+      @credits -= wager
+      spin_animation(block)
+      calculator = payout_calculator(wager)
+      win_animation(calculator.winners, calculator.payout, block)
+      @credits += calculator.payout
+      [wrap(lines), calculator.payout]
     end
 
-    def calculate_payout(wager, block)
+    def payout_calculator(wager)
       PayoutCalculator.new(wager).tap do |calculator|
         mappings.each do |mapping|
           line = mapping.map do |position|
             row, column = position
             lines[row][column]
           end
-          if calculator.calculate(line)
-            block.call(lines, calculator.payout, mapping)
-          end
+          calculator.add_winners(mapping) if calculator.calculate(line)
         end
       end
     end
 
     private
+
+    def win_animation(winners, payout, block)
+      winners.each do |winner|
+        block.call(wrap(lines, winner), payout)
+      end
+    end
+
+    def spin_animation(block)
+      (0..2).each do |column|
+        columns = lines.map { |line| line.take(column) }
+        block.call(wrap(columns), 0.0)
+      end
+    end
+
+    def wrap(lines, mapping = [])
+      ViewModel.new(lines, mapping)
+    end
 
     def mappings
       [
