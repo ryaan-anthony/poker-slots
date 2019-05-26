@@ -10,3 +10,4 @@ Pay the slot machine, for example:
 
 * Control flow feels weird with the mixed use of `yield` and `raise`
 * Full test suite
+* More games to demonstrate abstractions
