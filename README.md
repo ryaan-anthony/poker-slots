@@ -8,6 +8,5 @@ Pay the slot machine, for example:
 
 ### Roadmap
 
-* Control flow feels weird in `slot_machine#spin` and `game_engine#play`
 * Full test suite
 * More games to demonstrate abstractions
