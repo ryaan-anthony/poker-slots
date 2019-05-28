@@ -1,14 +1,14 @@
 module PokerSlots
-  class ViewModel
-    def initialize(lines, winner = [])
+  class FormatLines
+    def initialize(lines, match = [])
       @lines = lines
-      @winner = winner
+      @match = match
     end
 
     def lines
       @lines.map.with_index do |line, row|
         line.map.with_index do |card, column|
-          if @winner.include?([row, column])
+          if @match.include?([row, column])
             "[#{card.join}]"
           else
             " #{card.join} "

@@ -6,29 +6,33 @@ module PokerSlots
       system 'clear'
     end
 
+    def separator
+      append SEPARATOR
+    end
+
     def append(mixed)
       puts mixed
     end
 
     def display_intro(credits)
       clear
-      append SEPARATOR
+      separator
       append "   Credits: $#{'%.2f' % credits}"
-      append SEPARATOR
+      separator
       append '   Place your bet:'
     end
 
-    def display_layout(wager, view, payout, credits)
+    def display_layout(sequence, bet, payout, credits)
       clear
-      append SEPARATOR
+      separator
       append "   Credits: $#{'%.2f' % credits}"
-      append SEPARATOR
-      view.lines.each { |line| append "   #{line}" }
-      append SEPARATOR
-      append "   Bet: $#{'%.2f' % wager}"
-      append SEPARATOR
+      separator
+      sequence.lines.each { |line| append "   #{line}" }
+      separator
+      append "   Bet: $#{'%.2f' % bet}"
+      separator
       append "   Win: $#{'%.2f' % payout}"
-      append SEPARATOR
+      separator
       append '[Press ENTER to rebet]'
     end
   end

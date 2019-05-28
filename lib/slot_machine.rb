@@ -3,53 +3,72 @@ module PokerSlots
   class InsufficientFunds < StandardError; end
   class SlotMachine
     include CardLibrary
+    SEQUENCE_DELAY = 0.8.freeze
     attr_reader :credits
 
     def initialize(credits)
       @credits = credits
     end
 
-    def spin(wager, &block)
-      raise InvalidWager if wager <= 0
-      raise InsufficientFunds if wager > @credits
+    def spin(bet)
       @lines = nil
-      @credits -= wager
-      spin_animation(block)
-      calculator = payout_calculator(wager)
-      win_animation(calculator.winners, calculator.payout, block)
-      @credits += calculator.payout
-      [wrap(lines), calculator.payout]
+      @credits -= bet
+
+      matches = calculate_matches
+      winners = matches.map(&:first)
+      sequences =
+        spin_animation +
+        win_animation(winners) +
+        final_animation
+
+      payout_amount = matches.map(&:last).sum
+      payout_amount *= bet
+      payout_amount *= 2
+      @credits += payout_amount
+
+      SpinResult.new(
+        sequences,
+        payout_amount,
+        credits
+      )
     end
 
-    def payout_calculator(wager)
-      PayoutCalculator.new(wager).tap do |calculator|
-        mappings.each do |mapping|
-          line = mapping.map do |position|
-            row, column = position
-            lines[row][column]
-          end
-          calculator.add_winners(mapping) if calculator.calculate(line)
-        end
-      end
+    def delay
+      SEQUENCE_DELAY
     end
 
     private
 
-    def win_animation(winners, payout, block)
-      winners.each do |winner|
-        block.call(wrap(lines, winner), payout)
+    def calculate_matches
+      mappings.each_with_object([]) do |mapping, matches|
+        line = mapping.map do |position|
+          row, column = position
+          lines[row][column]
+        end
+        match_percent = LineMatcher.new(line).match_percent
+        if match_percent > 0
+          matches << [mapping, match_percent]
+        end
       end
     end
 
-    def spin_animation(block)
-      (0..2).each do |column|
+    def spin_animation
+      (0..2).map do |column|
         columns = lines.map { |line| line.take(column) }
-        block.call(wrap(columns), 0.0)
+        FormatLines.new(columns)
       end
     end
 
-    def wrap(lines, mapping = [])
-      ViewModel.new(lines, mapping)
+    def win_animation(winners)
+      winners.map do |winner|
+        FormatLines.new(lines, winner)
+      end
+    end
+
+    def final_animation
+      [
+        FormatLines.new(lines)
+      ]
     end
 
     def mappings
