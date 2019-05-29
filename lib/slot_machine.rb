@@ -19,9 +19,8 @@ module PokerSlots
         win_animation(winners) +
         final_animation
 
-      payout_amount = matches.map(&:last).sum
+      payout_amount = matches.map(&:last).sum * 2
       payout_amount *= bet
-      payout_amount *= 2
       @credits += payout_amount
 
       spin_result.new(

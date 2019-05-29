@@ -23,5 +23,16 @@ module PokerSlots
         assert_equal(@slot_machine.credits, 125)
       end
     end
+
+    def test_calculate_matches
+      @slot_machine.stub :lines, [
+        [[0,0], [0,1], [0,2]],
+        [[1,0], [1,1], [1,2]],
+        [[2,0], [2,1], [2,2]]
+      ] do
+        @slot_machine.spin(10)
+        assert_equal(@slot_machine.credits, 150)
+      end
+    end
   end
 end
