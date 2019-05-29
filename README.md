@@ -8,5 +8,4 @@ Pay the slot machine, for example:
 
 ### Roadmap
 
-* Full test suite
 * More games to demonstrate abstractions
