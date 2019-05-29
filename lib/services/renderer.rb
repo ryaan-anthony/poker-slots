@@ -39,13 +39,14 @@ module PokerSlots
       separator
       sequence.lines.each { |line| append "   #{line}" }
       separator
-      append "   Bet: $#{'%.2f' % bet}"
-      separator
-      unless payout.nil?
+      if payout.nil?
+        append "   Bet: $#{'%.2f' % bet}"
+        separator
+      else
         append "   Win: $#{'%.2f' % payout}"
         separator
+        append '[Press ENTER to rebet]'
       end
-      append '[Press ENTER to rebet]'
     end
   end
 end
