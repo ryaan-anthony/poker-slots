@@ -2,6 +2,8 @@
 
 [![CircleCI](https://circleci.com/gh/ryaan-anthony/poker-slots.svg?style=svg)](https://circleci.com/gh/ryaan-anthony/poker-slots)
 
+![Screen Shot](docs/assets/screen_shot.png)
+
 ### Getting started
 
 Pay the slot machine, for example:
