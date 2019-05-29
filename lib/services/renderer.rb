@@ -2,6 +2,10 @@ module PokerSlots
   class Renderer
     SEPARATOR = '- - - - - - - - - - - -'.freeze
 
+    def initialize(output)
+      @output = output
+    end
+
     def clear
       system 'clear'
     end
@@ -11,7 +15,7 @@ module PokerSlots
     end
 
     def append(mixed)
-      puts mixed
+      @output.puts mixed
     end
 
     def display_intro(credits)

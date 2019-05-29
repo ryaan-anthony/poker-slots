@@ -1,6 +1,4 @@
 module PokerSlots
-  class InvalidWager < StandardError; end
-  class InsufficientFunds < StandardError; end
   class SlotMachine
     include CardLibrary
     SEQUENCE_DELAY = 0.8.freeze
