@@ -7,3 +7,8 @@ task :play, [:credits] do |t, args|
   output = PokerSlots::Renderer.new
   PokerSlots::GameEngine.new(input, output, game).play
 end
+
+require 'rake/testtask'
+Rake::TestTask.new do |task|
+  task.pattern = 'test/**/*_test.rb'
+end

@@ -13,7 +13,7 @@ module PokerSlots
       loop do
         bet = current_bet
         next unless valid_bet?(bet)
-        current_credits = game.credits
+        current_credits = game.credits - bet
         spin_result = game.spin(bet)
 
         spin_result.sequences.each.with_index(1) do |sequence, index|

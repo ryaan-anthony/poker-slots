@@ -25,7 +25,9 @@ module PokerSlots
     private
 
     def valid?
-      @line.count == 3 && @line.map(&:count).uniq.first == 2
+      @line.count == 3 && @line.map(&:count).all? { |count| count == 2 }
+    rescue NoMethodError
+      false
     end
   end
 end
