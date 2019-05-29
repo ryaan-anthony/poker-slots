@@ -6,5 +6,4 @@ module PokerSlots
   autoload :LineMatcher,      './lib/services/line_matcher'
   autoload :Renderer,         './lib/services/renderer'
   autoload :SlotMachine,      './lib/slot_machine'
-  autoload :SpinResult,       './lib/models/spin_result'
 end

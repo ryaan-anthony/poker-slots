@@ -24,7 +24,7 @@ module PokerSlots
       payout_amount *= 2
       @credits += payout_amount
 
-      SpinResult.new(
+      spin_result.new(
         sequences,
         payout_amount,
         credits
@@ -36,6 +36,10 @@ module PokerSlots
     end
 
     private
+
+    def spin_result
+      Struct.new(:sequences, :payout, :credits)
+    end
 
     def calculate_matches
       mappings.each_with_object([]) do |mapping, matches|
