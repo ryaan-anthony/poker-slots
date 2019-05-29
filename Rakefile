@@ -1,4 +1,4 @@
-Dir[File.join(__dir__, 'lib', '**', '*.rb')].each { |file| require file }
+Dir[File.join('.', 'lib', '**', '*.rb')].each { |file| require file }
 
 desc "Play PokerSlots"
 task :play, [:credits] do |t, args|
