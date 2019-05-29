@@ -1,6 +1,6 @@
 require './lib/autoloader'
 
-desc "Play PokerSlots"
+desc 'Play PokerSlots'
 task :play, [:credits] do |t, args|
   credits = args.credits.to_f.abs
   slot_machine = PokerSlots::SlotMachine.new(credits)
@@ -10,7 +10,7 @@ task :play, [:credits] do |t, args|
   game_engine.exit
 end
 
-desc "Audit PokerSlots::SlotMachine"
+desc 'Audit PokerSlots::SlotMachine'
 task :audit do
   puts 'Auditing PokerSlots::SlotMachine...'
   (0..1000).each do
