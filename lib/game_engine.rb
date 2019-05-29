@@ -24,7 +24,7 @@ module PokerSlots
             last_sequence ? spin_result.payout : 0,
             last_sequence ? spin_result.credits : current_credits
           )
-          sleep game.delay
+          sleep game.delay unless last_sequence
         end
       end
     end
