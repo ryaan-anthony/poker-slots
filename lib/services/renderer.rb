@@ -26,7 +26,13 @@ module PokerSlots
       append '   Place your bet:'
     end
 
-    def display_layout(sequence, bet, payout, credits)
+    def display_exit
+      clear
+      separator
+      append 'Thanks for playing!'
+    end
+
+    def display_layout(credits, sequence, bet, payout = nil)
       clear
       separator
       append "   Credits: $#{'%.2f' % credits}"
@@ -35,8 +41,10 @@ module PokerSlots
       separator
       append "   Bet: $#{'%.2f' % bet}"
       separator
-      append "   Win: $#{'%.2f' % payout}"
-      separator
+      unless payout.nil?
+        append "   Win: $#{'%.2f' % payout}"
+        separator
+      end
       append '[Press ENTER to rebet]'
     end
   end

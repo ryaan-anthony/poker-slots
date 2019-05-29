@@ -6,9 +6,13 @@
 
 ### Getting started
 
-Pay the slot machine, for example:
+Play the slot machine:
 
 `rake play[10]`
+
+Audit the slot machine:
+
+`rake audit`
 
 ### Roadmap
 

@@ -10,6 +10,7 @@ module PokerSlots
 
     def spin(bet)
       @lines = nil
+      original_credits = @credits
       @credits -= bet
 
       matches = calculate_matches
@@ -19,14 +20,20 @@ module PokerSlots
         win_animation(winners) +
         final_animation
 
-      payout_amount = matches.map(&:last).sum * 2
+      payout_amount = matches.map(&:last).sum * random_multiplier
       payout_amount *= bet
       @credits += payout_amount
+
+      previous_payout = (@previous_payout ||= 0)
+      @previous_payout = payout_amount
 
       spin_result.new(
         sequences,
         payout_amount,
-        credits
+        credits,
+        original_credits,
+        previous_payout,
+        []
       )
     end
 
@@ -36,8 +43,20 @@ module PokerSlots
 
     private
 
+    # random number between 1.1 and 2.2
+    def random_multiplier
+      (rand(1..12) * 0.1) + 1
+    end
+
     def spin_result
-      Struct.new(:sequences, :payout, :credits)
+      Struct.new(
+        :sequences,
+        :payout,
+        :credits,
+        :original_credits,
+        :previous_payout,
+        :errors
+      )
     end
 
     def calculate_matches
